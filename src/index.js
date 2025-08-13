@@ -24,9 +24,9 @@ const app = express();
 //   })
 // );
 
-app.use(cors({
-  origin: '*'
-}));
+// app.use(cors({
+//   origin: '*'
+// }));
 
 app.use(morgan('dev'));
 app.use(express.json({ limit: '1mb' }));
@@ -49,34 +49,34 @@ app.use(
 );
 
 // CORS setup
-const allowedOrigins = [
-  'https://main.d3l0tyl8twjasp.amplifyapp.com',
-  'http://localhost:3000',
-  'http://localhost:5173',
-  '*'
-];
+// const allowedOrigins = [
+//   'https://main.d3l0tyl8twjasp.amplifyapp.com',
+//   'http://localhost:3000',
+//   'http://localhost:5173',
+//   '*'
+// ];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps or curl)
-      if (!origin) return callback(null, true);
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       // Allow requests with no origin (like mobile apps or curl)
+//       if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error('CORS not allowed'), false);
-      }
-    },
-    credentials: true,
-  })
-);
+//       if (allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+//         return callback(null, true);
+//       } else {
+//         return callback(new Error('CORS not allowed'), false);
+//       }
+//     },
+//     credentials: true,
+//   })
+// );
 
 // Apply CORS headers to all responses
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  // res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  // res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
 
