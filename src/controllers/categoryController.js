@@ -27,4 +27,9 @@ export const deleteCategory = async (req, res) => {
   const deleted = await Category.findByIdAndDelete(id);
   if (!deleted) throw new AppError('Category not found', 404);
   res.json({ success: true, data: { id } });
+};
+
+export const adminListCategories = async (_req, res) => {
+  const items = await Category.find().sort({ name: 1 });
+  res.json({ success: true, data: items });
 }; 
