@@ -6,9 +6,11 @@ import { User } from '../models/User.js';
 export async function protect(req, _res, next) {
   try {
     const token = req.cookies?.token || (req.headers.authorization?.startsWith('Bearer ') ? req.headers.authorization.split(' ')[1] : undefined);
+    console.log("token", token);
     if (!token) throw new AppError('Not authenticated', 401);
     const decoded = jwt.verify(token, env.jwtSecret);
     const user = await User.findById(decoded.id);
+    console.log("user====================", user)
     if (!user || user.isDeactivated) throw new AppError('User not found or deactivated', 401);
     req.user = { id: user.id, role: user.role };
     next();
