@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, lowercase: true, index: true },
-    phone: { type: String, index: true },
+    phone: { type: String, required: true, index: true },
     password: { type: String, required: true, select: false },
     role: { type: String, enum: ['customer', 'admin', 'delivery'], default: 'customer' },
     isDeactivated: { type: Boolean, default: false },

@@ -24,12 +24,29 @@ export const register = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) throw new AppError('Validation error', 422, errors.array());
   const { name, email, password, phone } = req.body;
-  const exists = await User.findOne({ email });
-  if (exists) throw new AppError('Email already in use', 409);
+  
+  // Check if email already exists
+  const emailExists = await User.findOne({ email });
+  if (emailExists) throw new AppError('Email already in use', 409);
+  
+  // Check if phone already exists
+  const phoneExists = await User.findOne({ phone });
+  if (phoneExists) throw new AppError('Phone number already in use', 409);
+  
   const user = await User.create({ name, email, password, phone });
   const token = generateToken(user);
   setAuthCookie(res, token);
-  res.status(201).json({ success: true, data: { token:token, id: user.id, name: user.name, email: user.email, role: user.role } });
+  res.status(201).json({ 
+    success: true, 
+    data: { 
+      token: token, 
+      id: user.id, 
+      name: user.name, 
+      email: user.email, 
+      phone: user.phone,
+      role: user.role 
+    } 
+  });
 };
 
 export const login = async (req, res) => {
@@ -42,7 +59,7 @@ export const login = async (req, res) => {
   if (!match) throw new AppError('Invalid credentials', 401);
   const token = generateToken(user.id);
   setAuthCookie(res, token);
-  res.json({ success: true, data: { token, id: user.id, name: user.name, email: user.email, role: user.role } });
+  res.json({ success: true, data: { token, id: user.id, name: user.name, email: user.email, phone: user.phone, role: user.role } });
 };
 
 export const logout = async (_req, res) => {
@@ -85,7 +102,7 @@ export const verifyOtp = async (req, res) => {
   await user.save();
   const token = generateToken(user.id);
   setAuthCookie(res, token);
-  res.json({ success: true, data: { id: user.id, name: user.name, email: user.email, role: user.role } });
+  res.json({ success: true, data: { id: user.id, name: user.name, email: user.email, phone: user.phone, role: user.role } });
 };
 
 export const forgotPassword = async (req, res) => {

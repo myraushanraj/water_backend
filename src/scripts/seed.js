@@ -30,7 +30,7 @@ async function run() {
   const adminEmail = 'admin@ecomgro.local';
   const existingAdmin = await User.findOne({ email: adminEmail });
   if (!existingAdmin) {
-    await User.create({ name: 'Admin', email: adminEmail, password: 'admin123', role: 'admin' });
+    await User.create({ name: 'Admin', email: adminEmail, password: 'admin123', phone: '+919876543210', role: 'admin' });
     console.log('✅ Seeded admin user:', adminEmail, 'password: admin123');
   }
 
