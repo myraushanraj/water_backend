@@ -21,7 +21,7 @@ export const createOrder = async (req, res) => {
     return { product: p.id, name: p.name, price: p.price, quantity: i.quantity, image: p.images?.[0]?.url || '' };
   });
 
-  const shippingFee = subtotal >= 499 ? 0 : 49;
+  const shippingFee = 0;
   let discount = 0;
   let appliedCoupon;
   if (couponCode) {
